@@ -15,6 +15,7 @@ public float speed; //Speed the ball travels
 private float tempSpeed;
 public float turning; //The ability to make sharp turns. Bigger balls usually have a wider radius 
 public float scale; //The size of the ball
+public float specialTimeBoost;
 
 
 //Positioning and Movement
@@ -49,6 +50,7 @@ public Rigidbody2D rb;
         ballTransform.localScale = new Vector3((1f * character.scale), (1f * character.scale), 1);
         speed = character.speed;
         turning = character.turning;
+        specialTimeBoost = character.specialTimeBoost;
     }
     
 }

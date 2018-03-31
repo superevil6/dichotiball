@@ -66,7 +66,7 @@ private bool gettable = false; //while it's startUp marker is active, it's not g
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if(other.gameObject.tag == "Player"){
-			StaticStats.score += Mathf.RoundToInt(scoreValue);
+			StaticStats.score += Mathf.RoundToInt(scoreValue * StaticStats.scoreMultiplier);
 			boxCollider.enabled = false;
 			spriteRenderer.sprite = null;
 			StartCoroutine(pickedUp());

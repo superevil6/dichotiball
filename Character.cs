@@ -7,6 +7,7 @@ public class Character : ScriptableObject {
 public float speed;
 public float turning;
 public float scale;
+public float specialTimeBoost;
 public Sprite sprite;
 public AudioClip[] sounds;
 public AnimationClip[] animations;
