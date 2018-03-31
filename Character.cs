@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "character", menuName = "character", order = 3)]
 public class Character : ScriptableObject {
 public float speed;
+public float turning;
 public float scale;
 public Sprite sprite;
 public AudioClip[] sounds;

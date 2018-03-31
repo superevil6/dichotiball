@@ -66,18 +66,16 @@ private bool gettable = false; //while it's startUp marker is active, it's not g
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if(other.gameObject.tag == "Player"){
-			print(scoreValue);
 			StaticStats.score += Mathf.RoundToInt(scoreValue);
-			// audioSource.clip = sounds[2];
-			// audioSource.Play();
-			//Play outro animation
-			gameObject.SetActive(false);
+			boxCollider.enabled = false;
+			spriteRenderer.sprite = null;
+			StartCoroutine(pickedUp());
 		}
 	}
 
 	IEnumerator disappear(float time){
-		// audioSource.clip = sounds[1];
-		// audioSource.Play();
+		audioSource.clip = sounds[1];
+		audioSource.Play();
 		gettable = true;
 		gameObject.GetComponent<SpriteRenderer>().sprite = mainSprite;
 		gameObject.GetComponent<BoxCollider2D>().enabled = true;
@@ -92,6 +90,14 @@ private bool gettable = false; //while it's startUp marker is active, it's not g
 		StartCoroutine(disappear(expireTimer));
 	}
 
+	IEnumerator pickedUp(){
+		audioSource.clip = sounds[2];
+		audioSource.Play();
+		//animation 
+		//compare the animation and the audio and see which is longer.
+		yield return new WaitForSeconds(sounds[2].length);
+		gameObject.SetActive(false);
+	}
 	void setAudio(){
 		pitch = ((gameObject.transform.localPosition.y + 7f) / 1.5f);
 		stereoPan = gameObject.transform.localPosition.x;
