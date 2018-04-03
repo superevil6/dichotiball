@@ -19,6 +19,9 @@ public float specialTimeBoost;
 
 
 //Positioning and Movement
+public bool leftBall;
+private int leftId;
+private int rightId;
 private Vector3 startingPosition;
 private Vector3 targetPosition;
 private float startTime;
@@ -28,6 +31,7 @@ public Transform ballTransform;
 public BoxCollider2D boxCollider;
 public Quaternion rotate;
 public Rigidbody2D rb;
+public List<Touch> touches = new List<Touch>();
 
     void Start()
    {
@@ -35,15 +39,38 @@ public Rigidbody2D rb;
    }
     // Update is called once per frame
     void Update () {
-        if(Input.GetKey(KeyCode.Mouse0)){
-                targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
-                float distance = Vector3.Distance(ballTransform.position, targetPosition);
-                if(distance > 90.002f){
-                    ballTransform.rotation = Quaternion.Slerp(ballTransform.rotation, rotate, Time.deltaTime * turning);
-                    rotate = Quaternion.LookRotation(Vector3.forward, (targetPosition - ballTransform.position));
-                    ballTransform.position +=  ballTransform.up * Time.deltaTime * speed;
+
+            if(Input.touchCount > 0){
+                foreach(Touch touch in Input.touches){
+                    if(touch.phase == TouchPhase.Began && touch.position.x > Screen.width /2){
+                        leftId = touch.fingerId;
+                    }
+                    if(touch.phase == TouchPhase.Began && touch.position.x < Screen.width /2){
+                        rightId = touch.fingerId;
+                    }
+                
+                    if(touch.fingerId == leftId && touch.position.x > Screen.width /2 && !leftBall){
+                        targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(touch.position).x, Camera.main.ScreenToWorldPoint(touch.position).y, 0);
+                        float distance = Vector3.Distance(ballTransform.position, targetPosition);
+                        if(distance > 90.002f){
+                            ballTransform.rotation = Quaternion.Slerp(ballTransform.rotation, rotate, Time.deltaTime * turning);
+                            rotate = Quaternion.LookRotation(Vector3.forward, (targetPosition - ballTransform.position));
+                            ballTransform.position +=  ballTransform.up * Time.deltaTime * speed;
+                        }
+                    }
+                    if(touch.fingerId == rightId && touch.position.x < Screen.width /2 && leftBall){
+                        targetPosition = new Vector3(Camera.main.ScreenToWorldPoint(touch.position).x, Camera.main.ScreenToWorldPoint(touch.position).y, 0);
+                        float distance = Vector3.Distance(ballTransform.position, targetPosition);
+                        if(distance > 90.002f){
+                            ballTransform.rotation = Quaternion.Slerp(ballTransform.rotation, rotate, Time.deltaTime * turning);
+                            rotate = Quaternion.LookRotation(Vector3.forward, (targetPosition - ballTransform.position));
+                            ballTransform.position +=  ballTransform.up * Time.deltaTime * speed;
+                        }
+                    }
+                
                 }
-			}
+            }            
+        
     }
 	void setUpCharacter (Character character){
         gameObject.GetComponent<SpriteRenderer>().sprite = character.sprite;
