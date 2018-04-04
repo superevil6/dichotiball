@@ -10,18 +10,20 @@ Since there are a lot of items, object pooling will be used.
 public class itemManager : MonoBehaviour {
 //item pooling
 public List<GameObject> scoreItems = new List<GameObject>();
+public LevelManager levelManager;
 public itemLists masterItemList;
 public itemList currentList;
 public int scoreItemPoolCount;
 public GameObject prefab;
 private int randomListIndex;
+public bool leftManager;
 
 	// Use this for initialization
 	void Start () {
 		initializeScoreItems(scoreItemPoolCount);
 		resetListStatus(masterItemList);
 		// StartCoroutine(findListToRun(masterItemList));
-		if(masterItemList.randomOrder){
+		if(levelManager.currentLevel.randomOrder){
 			StartCoroutine(runRandomList(masterItemList));
 		}
 		else{
@@ -43,7 +45,7 @@ private int randomListIndex;
 	}
 
 	public IEnumerator runRandomList(itemLists masterItemList){
-		while(StaticStats.score <= masterItemList.necessaryScore){
+		while(StaticStats.score <= levelManager.currentLevel.necessaryScore){
 			randomListIndex = Random.Range(0, masterItemList.masterItemList.Length);
 			runList(masterItemList.masterItemList[randomListIndex]);
 			yield return new WaitForSeconds(masterItemList.masterItemList[randomListIndex].coolDownTime);
@@ -80,20 +82,20 @@ private int randomListIndex;
 				scoreItem.expireTimer = itemPrefab.GetComponent<scoreItem>().expireTimer;	
 				scoreItem.sounds = itemPrefab.GetComponent<scoreItem>().sounds;
 				if(!randomizeOffset){
-					if(!left){
-						theItem.GetComponent<Transform>().localPosition = new Vector3((item.xCoord + xOffset), (item.yCoord + yOffset), 0);
+					if(leftManager){
+						theItem.GetComponent<Transform>().localPosition = new Vector3((-item.xCoord + xOffset), (item.yCoord + yOffset), 0);
 					}
 					else{
-						theItem.GetComponent<Transform>().localPosition = new Vector3((-item.xCoord + xOffset), (item.yCoord + yOffset), 0);
+						theItem.GetComponent<Transform>().localPosition = new Vector3((item.xCoord + xOffset), (item.yCoord + yOffset), 0);
 					}
 				}
 				else{
 					float randomizedOffset = Random.Range(-5, 5);
-					if(!left){
-						theItem.GetComponent<Transform>().localPosition = new Vector3((item.xCoord + randomizedOffset), (item.yCoord + randomizedOffset), 0);
+					if(leftManager){
+						theItem.GetComponent<Transform>().localPosition = new Vector3((-item.xCoord + randomizedOffset), (item.yCoord + randomizedOffset), 0);
 					}
 					else{
-						theItem.GetComponent<Transform>().localPosition = new Vector3((-item.xCoord + randomizedOffset), (item.yCoord + randomizedOffset), 0);
+						theItem.GetComponent<Transform>().localPosition = new Vector3((item.xCoord + randomizedOffset), (item.yCoord + randomizedOffset), 0);
 					}
 				}
 				theItem.SetActive(true);
