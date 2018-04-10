@@ -49,6 +49,13 @@ public enum Type {
 			if(type == Type.SmoothTurning){
 				other.gameObject.GetComponent<PowerUpManager>().StartCoroutine("SmoothTurning");
 			}
+			if(type == Type.TimeBoost){
+				
+				StaticStats.time += 5f;
+			}
+			if(type == Type.DecayStop){
+				other.gameObject.GetComponent<PowerUpManager>().StartCoroutine("DecayStop");
+			}
 			gameObject.SetActive(false);
 		}
 	}

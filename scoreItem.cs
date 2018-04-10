@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class scoreItem : MonoBehaviour {
 //Stat values
-public int id;
+public int themeIndex;
 public GameController gameController;
 public float scoreValue;
 private float backupScoreValue;
@@ -14,7 +14,6 @@ public float expireTimer;
 
 //Collision related assets
 public BoxCollider2D boxCollider;
-
 //Graphics and sounds
 public SpriteRenderer spriteRenderer;
 public Sprite mainSprite;
@@ -79,14 +78,15 @@ private bool gettable = false; //while it's startUp marker is active, it's not g
 		gettable = true;
 		gameObject.GetComponent<SpriteRenderer>().sprite = mainSprite;
 		gameObject.GetComponent<BoxCollider2D>().enabled = true;
-		yield return new WaitForSeconds(time);
+		yield return new WaitForSeconds(time * StaticStats.timeSpeed);
 		gameObject.SetActive(false);
 	}
 
 	IEnumerator startUpMarker(float time){
+		gameObject.GetComponent<SpriteRenderer>().sprite = marker;
 		audioSource.clip = sounds[0];
 		audioSource.Play();
-		yield return new WaitForSeconds(time);
+		yield return new WaitForSeconds(time * StaticStats.timeSpeed);
 		StartCoroutine(disappear(expireTimer));
 	}
 

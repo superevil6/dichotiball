@@ -18,6 +18,7 @@ public class itemList : ScriptableObject {
 public class item{
     //This is a colletion of which item id, which 
     public GameObject scoreItem;
+    public int themeIndex;
     public float xCoord;
     public float yCoord;
 	public float spawnAfterSeconds;

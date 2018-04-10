@@ -13,7 +13,6 @@ public LevelData levelData;
 	// Use this for initialization
 	void Start () {
 		string path = Application.streamingAssetsPath + "/LevelData.json";
-		print(path);
 		string jsonString = File.ReadAllText(path);
 		levelData = JsonUtility.FromJson<LevelData>(jsonString);
 		setLevel(0);
@@ -33,6 +32,7 @@ public LevelData levelData;
 		currentLevel.timeLimit = levelData.levels[levelId].timeLimit;
 		currentLevel.necessaryScore = levelData.levels[levelId].necessaryScore;
 		currentLevel.randomOrder = levelData.levels[levelId].randomOrder;
+		currentLevel.theme = levelData.levels[levelId].theme;
 
 
 	}
@@ -44,6 +44,7 @@ public LevelData levelData;
 public class Level{
 	public int levelId;
 	public string levelName; 
+	public int theme;
 	public int leftId;
 	public int rightId;
 	public float timeLimit;

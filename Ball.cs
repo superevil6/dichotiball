@@ -16,6 +16,15 @@ private float tempSpeed;
 public float turning; //The ability to make sharp turns. Bigger balls usually have a wider radius 
 public float scale; //The size of the ball
 public float specialTimeBoost;
+public enum ballType {
+    spikeBall,
+    baseBall,
+    motorBall,
+    marble,
+    slimeBall,
+    magicEightBall
+}
+public ballType type;
 
 
 //Positioning and Movement
@@ -74,6 +83,7 @@ public List<Touch> touches = new List<Touch>();
     }
 	void setUpCharacter (Character character){
         gameObject.GetComponent<SpriteRenderer>().sprite = character.sprite;
+        type = (Ball.ballType)character.type;
         ballTransform.localScale = new Vector3((1f * character.scale), (1f * character.scale), 1);
         speed = character.speed;
         turning = character.turning;

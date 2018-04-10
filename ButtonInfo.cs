@@ -10,6 +10,9 @@ public class ButtonInfo : MonoBehaviour {
 	public void setLevel(int levelId){
 		StaticStats.levelId = levelId;
 	}
+	public void nextLevel(){
+		StaticStats.levelId += 1;
+	}
 		public void setActiveScene(int levelId){
 		SceneManager.LoadScene(1);
 	}

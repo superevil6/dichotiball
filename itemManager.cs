@@ -11,6 +11,8 @@ public class itemManager : MonoBehaviour {
 //item pooling
 public List<GameObject> scoreItems = new List<GameObject>();
 public LevelManager levelManager;
+public Themes themeManager;
+public int currentTheme;
 public itemLists masterItemList;
 public itemList currentList;
 public int scoreItemPoolCount;
@@ -20,6 +22,7 @@ public bool leftManager;
 
 	// Use this for initialization
 	void Start () {
+		currentTheme = levelManager.currentLevel.theme;
 		initializeScoreItems(scoreItemPoolCount);
 		resetListStatus(masterItemList);
 		// StartCoroutine(findListToRun(masterItemList));
@@ -61,8 +64,6 @@ public bool leftManager;
 	public void runList(itemList currentList){
 		foreach(item item in currentList.items){
 			StartCoroutine(startUpTime(item.spawnAfterSeconds, item, currentList.xOffset, currentList.yOffset, currentList.leftSide, currentList.randomizeOffset));
-			// returnedObject.SetActive(true);
-			print("returning object");
 		}
 		currentList.alreadyDone = true;
 
@@ -74,13 +75,21 @@ public bool leftManager;
 				GameObject theItem = scoreItems[i];
 				SpriteRenderer sprite = theItem.GetComponent<SpriteRenderer>();
 				scoreItem scoreItem = theItem.GetComponent<scoreItem>();
+				
 				sprite.color = new Color(item.color.r, item.color.g, item.color.b, item.color.a);
 				// sprite.sprite = theItem.GetComponent<scoreItem>().marker;
-				sprite.sprite = itemPrefab.GetComponent<scoreItem>().marker;
-				scoreItem.mainSprite = itemPrefab.GetComponent<scoreItem>().mainSprite;
+				// sprite.sprite = itemPrefab.GetComponent<scoreItem>().marker;
+				// sprite.sprite = themeManager.themes[currentTheme].markerSprite;
+				// scoreItem.mainSprite = itemPrefab.GetComponent<scoreItem>().mainSprite;
+				scoreItem.marker = themeManager.themes[currentTheme].markerSprite;
+				scoreItem.mainSprite = themeManager.themes[currentTheme].scoreItemSprites[scoreItem.themeIndex];
 				scoreItem.scoreValue = itemPrefab.GetComponent<scoreItem>().scoreValue; 
-				scoreItem.expireTimer = itemPrefab.GetComponent<scoreItem>().expireTimer;	
-				scoreItem.sounds = itemPrefab.GetComponent<scoreItem>().sounds;
+				scoreItem.expireTimer = itemPrefab.GetComponent<scoreItem>().expireTimer;
+				scoreItem.sounds[0] = themeManager.themes[currentTheme].scoreItemMarker[scoreItem.themeIndex];
+				scoreItem.sounds[1] = themeManager.themes[currentTheme].scoreItemAppear[scoreItem.themeIndex];	
+				scoreItem.sounds[2] = themeManager.themes[currentTheme].socreItemPickup[scoreItem.themeIndex];	
+	
+				// scoreItem.sounds = itemPrefab.GetComponent<scoreItem>().sounds;
 				if(!randomizeOffset){
 					if(leftManager){
 						theItem.GetComponent<Transform>().localPosition = new Vector3((-item.xCoord + xOffset), (item.yCoord + yOffset), 0);

@@ -11,6 +11,15 @@ public float specialTimeBoost;
 public Sprite sprite;
 public AudioClip[] sounds;
 public AnimationClip[] animations;
+public enum ballType {
+    spikeBall,
+    baseBall,
+    motorBall,
+    marble,
+    slimeBall,
+    magicEightBall
+}
+public ballType type;
 
 
 	// Use this for initialization

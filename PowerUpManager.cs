@@ -45,4 +45,9 @@ public float powerUpTime;
 		yield return new WaitForSeconds(powerUpTime * gameObject.GetComponent<Ball>().specialTimeBoost);
 		gameObject.GetComponent<Ball>().speed = tempSpeed;
 	}
+	public IEnumerator DecayStop(){
+		StaticStats.timeSpeed = 1.5f;
+		yield return new WaitForSeconds(powerUpTime * gameObject.GetComponent<Ball>().specialTimeBoost);
+		StaticStats.timeSpeed = 1f;
+	}
 }
